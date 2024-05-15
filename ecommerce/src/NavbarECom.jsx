@@ -9,7 +9,7 @@ const NavbarECom = () => {
   return (
     <>
       <div className=" w-full min-h-16 bg-gray-900 flex  items-center justify-around text-lg">
-        <div className="websitename text-white ">XYZ.com</div>
+        <div className="websitename text-white "><Link to="/"> XYZ.com </Link></div>
         <div className="location flex items-center gap-5">
           <div className="location-icon text-white ">
             <FaLocationDot />

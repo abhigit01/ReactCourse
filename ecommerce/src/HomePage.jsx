@@ -1,8 +1,9 @@
 import { useDispatch } from "react-redux";
-import NavbarECom from "./NavbarECom";
 import React, { useEffect, useState } from "react";
-import { addProduct } from "./redux/products/productSlice";
 import { FaRegHeart } from "react-icons/fa";
+import { addToProduct } from './redux/products/productSlice'
+import { addToCart } from "./redux/products/cartSlice";
+import { addToWishlist } from "./redux/products/wishlistSlice";
 const HomePage = () => {
   const [ecommerce, setEcommerce] = useState();
   const dispatch = useDispatch();
@@ -15,19 +16,29 @@ const HomePage = () => {
       }
       const data = await responce.json();
       setEcommerce(data.products);
-      dispatch(addProduct(data.products));
+      dispatch(addToProduct(data.products));
     } catch (error) {
       console.log(error);
       alert("error");
     }
   };
+
   useEffect(() => {
     fetchEcommerce();
   }, []);
-  console.log(ecommerce);
+
+
+  const HandleAddToCart = (id) => {
+    dispatch(addToCart(id));
+
+  }
+  const HandleWishlist = (id) => {
+    dispatch(addToWishlist(id));
+
+  }
   return (
     <div className="flex flex-col gap-4">
-      <NavbarECom />
+
       <div className="product-view grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {ecommerce && ecommerce.length
           ? ecommerce.map((item) => {
@@ -42,11 +53,14 @@ const HomePage = () => {
                 </div>
                 <div className="flex items-center gap-4">
                   <div className="flex-col justify-center">
-                    <p className="title">{item.title}</p>
-                    <p className="price">{item.price}</p>
+                    <p className="title flex justify-center items-center">{item.title}</p>
+                    <p className="price flex justify-center items-center">{item.price}</p>
                   </div>
-                  <p><FaRegHeart /></p>
-                 
+                  <div className=" flex flex-col gap-2 items-center">
+                    <button className="bg-green-600 rounded w-28 cursor-default " onClick={() => HandleAddToCart(item.id)}>Add to Cart</button>
+                    <button className="bg-green-600 rounded w-28 cursor-pointer ">Buy Now</button>
+                    <button className=" rounded w-8 flex items-center cursor-pointer" onClick={() => HandleWishlist(item.id)} ><FaRegHeart /></button>
+                  </div>
                 </div>
               </div>
             );
