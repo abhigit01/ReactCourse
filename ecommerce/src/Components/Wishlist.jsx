@@ -1,9 +1,12 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
+import { useDispatch } from "react-redux";
+import {removeFromWishlist} from '../redux/products/wishlistSlice'
 
 const Wishlist = () => {
   const wishlist = useSelector((state)=>state.wishlist);
   const product = useSelector((state)=>state.product);
+  const dispatch = useDispatch();
   const isPresentInWishlist = (id) => {
     for (let i = 0; i < wishlist.length; i++) {
       if (id === wishlist[i]) {
@@ -11,6 +14,10 @@ const Wishlist = () => {
       }
     }
     return false;
+  }
+  const HandRemoveWishlist = (id) => {
+    dispatch(removeFromWishlist(id));
+
   }
   return (
 
@@ -35,7 +42,7 @@ const Wishlist = () => {
                       <p className="price flex justify-center items-center">{item.price}</p>
                     </div>
                     <div className=" flex flex-col gap-2 items-center">
-                    <button className="bg-red-600 rounded w-22 min-h-8 text-white" >Remove From Wishlist</button>
+                    <button className="bg-red-600 rounded w-22 min-h-8 text-white" onClick={() => HandRemoveWishlist(item.id)} >Remove From Wishlist</button>
                   </div>
                   </div>
                 </div>

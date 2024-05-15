@@ -1,9 +1,13 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux';
+import {removeFromCart} from '../redux/products/cartSlice'
+
 
 const AddtoCart = () => {
   const cart = useSelector((state) => state.cart);
   const product = useSelector((state) => state.product);
+  const dispatch = useDispatch();
   
   const isPresentInCart = (id) => {
     for (let i = 0; i < cart.length; i++) {
@@ -12,6 +16,9 @@ const AddtoCart = () => {
       }
     }
     return false;
+  }
+  const HandleRemoveFromcart=(id)=>{
+    dispatch(removeFromCart(id));
   }
   return (
 
@@ -37,7 +44,7 @@ const AddtoCart = () => {
                     </div>
                   </div>
                   <div className=" flex flex-col gap-2 items-center">
-                    <button className="bg-green-600 rounded w-28 " >Remove From Cart</button>
+                    <button className="bg-green-600 rounded w-28 " onClick={() => HandleRemoveFromcart(item.id)} >Remove From Cart</button>
                     <button className="bg-green-600 rounded w-28 " >Buy Now</button>
                   </div>
                 </div>
